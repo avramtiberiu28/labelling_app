@@ -145,6 +145,9 @@ export default function ModalCopy({ show, onClose, id_eticheta, id_categorie, on
             if(categorii_52x73.includes(id_categorie)){
                 setStyle('img_modalCopy carmangerie52x73');
             }
+            if(categorii_carniva.includes(id_categorie)){
+                setStyle('img_modalCopy carmangerieCarniva');
+            }
             setIsTransat(true);
             setReadOnly(true);
         }

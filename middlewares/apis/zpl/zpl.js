@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv')
 const request = require('request');
 const {generateZPLGustaria} = require('./functions/Gustaria');
-const {generateZPLCarmangerie} = require('./functions/Carmangerie');
+const {generateZPLCarmangerie52x73, generateZPLCarmangerieCarniva} = require('./functions/Carmangerie');
 
 dotenv.config();
 const API_URL = process.env.API_URL
@@ -35,8 +35,12 @@ app.post("/generateLabelTabel/", async (req, res) => {
             url = `http://api.labelary.com/v1/printers/8dpmm/labels/1.572x2.35/0/${zpl}`;
         }
         else if(id_societate === '2' && id_locatie == 8 && categorii_52x73.includes(label.id_categorie)){
-            zpl = generateZPLCarmangerie(label, label_info);
+            zpl = generateZPLCarmangerie52x73(label, label_info);
             url = `http://api.labelary.com/v1/printers/8dpmm/labels/2.04x2.86/0/${zpl}`;
+        }
+        else if(id_societate === '2' && id_locatie == 8 && categorii_carniva.includes(label.id_categorie)){
+            zpl = generateZPLCarmangerieCarniva(label, label_info);
+            url = `http://api.labelary.com/v1/printers/8dpmm/labels/2.475x4.00/0/${zpl}`;
         }
         //console.log(zpl);
         // Trimite ZPL către API-ul Labelary
@@ -64,12 +68,12 @@ app.post("/generateLabel/", async (req, res) => {
             url = `http://api.labelary.com/v1/printers/8dpmm/labels/1.572x2.35/0/${zpl}`;
         }
         else if(id_societate === '2' && id_locatie == 8 && categorii_52x73.includes(label.id_categorie)){
-            zpl = generateZPLCarmangerie(label);
+            zpl = generateZPLCarmangerie52x73(label);
             url = `http://api.labelary.com/v1/printers/8dpmm/labels/2.04x2.86/0/${zpl}`;
         }
-        else if(id_societate === '2' && id_locatie == 8){
-            zpl = generateZPLCarmangerie(label);
-            url = `http://api.labelary.com/v1/printers/8dpmm/labels/2.04x2.86/0/${zpl}`;
+        else if(id_societate === '2' && id_locatie == 8 && categorii_carniva.includes(label.id_categorie)){
+            zpl = generateZPLCarmangerieCarniva(label, label_info);
+            url = `http://api.labelary.com/v1/printers/8dpmm/labels/2.475x4.00/0/${zpl}`;
         }
         console.log('ZPL: ', zpl);
         // Trimite ZPL către API-ul Labelary
@@ -104,7 +108,11 @@ app.post("/generateLabelPrint/", async (req, res) => {
             url = `http://${API_URL}:3004/printLabel/`;
         }
         else if(id_societate === '2' && id_locatie == 8 && categorii_52x73.includes(label.id_categorie)){
-            zpl = generateZPLCarmangerie(label, label_info);
+            zpl = generateZPLCarmangerie52x73(label, label_info);
+            url = `http://${API_URL}:3004/printLabel/`
+        }
+        else if(id_societate === '2' && id_locatie == 8 && categorii_carniva.includes(label.id_categorie)){
+            zpl = generateZPLCarmangerieCarniva(label, label_info);
             url = `http://${API_URL}:3004/printLabel/`
         }
         const printResponse = await axios.post(url, {zpl, user_info, cantitate});

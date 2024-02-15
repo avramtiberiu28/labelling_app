@@ -141,7 +141,9 @@ export default function ModalAdd({ show, onClose, onLabelAdded }) {
             if(categorii_52x73.includes(id_categorie)){
                 setStyle('img_modalAdd carmangerie52x73');
             }
-            setStyle('img_modalAdd carmangerie52x73'); //trebuie sters dupa terminarea tuturor tipurilor de eticheta
+            if(categorii_carniva.includes(id_categorie)){
+                setStyle('img_modalAdd carmangerieCarniva');
+            }
             setIsTransat(true);
             setProdus('Produs in unitate tip Carmangerie VA TL2299/16.05.2016')
             setReadOnly(true);

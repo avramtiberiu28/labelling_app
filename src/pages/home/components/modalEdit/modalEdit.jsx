@@ -149,6 +149,9 @@ export default function ModalEdit({ show, onClose, id_eticheta , id_categorie, o
             if(categorii_52x73.includes(id_categorie)){
                 setStyle('img_modalEdit carmangerie52x73');
             }
+            if(categorii_carniva.includes(id_categorie)){
+                setStyle('img_modalEdit carmangerieCarniva');
+            }
             setIsTransat(true);
             setReadOnly(true);
         }

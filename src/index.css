@@ -225,6 +225,13 @@ body {
     transform:rotate(-90deg);
     border: 4px solid #00a65a;
   }
+  #modal_print .img_modalPrint.carmangerieCarniva{
+    width: 63mm; 
+    height: 102mm; 
+    /*transform:rotate(-90deg);*/
+    border: 4px solid #00a65a;
+  }
+
   #modal_print .validation{
     color:#d9534f;
     font-size: x-small;
@@ -276,6 +283,12 @@ body {
     width: 52mm; 
     height: 73mm; 
     transform:rotate(-90deg);
+    border: 4px solid #00a65a;
+  }
+  #modal_add .img_modalAdd.carmangerieCarniva{
+    width: 63mm; 
+    height: 102mm; 
+    /*transform:rotate(-90deg);*/
     border: 4px solid #00a65a;
   }
 
@@ -333,7 +346,12 @@ body {
     transform:rotate(-90deg);
     border: 4px solid #00a65a;
   }
-  
+  #modal_edit .img_modalEdit.carmangerieCarniva{
+    width: 63mm; 
+    height: 102mm; 
+    /*transform:rotate(-90deg);*/
+    border: 4px solid #00a65a;
+  }
   #modal_edit .validation{
     color:#d9534f;
     font-size: x-small;
@@ -386,6 +404,12 @@ body {
     width: 52mm; 
     height: 73mm; 
     transform:rotate(-90deg);
+    border: 4px solid #00a65a;
+  }
+  #modal_copy .img_modalCopy.carmangerieCarniva{
+    width: 63mm; 
+    height: 102mm; 
+    /*transform:rotate(-90deg);*/
     border: 4px solid #00a65a;
   }
 
