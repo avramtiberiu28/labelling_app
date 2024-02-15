@@ -75,6 +75,7 @@ app.post("/generateLabel/", async (req, res) => {
             zpl = generateZPLCarmangerieCarniva(label, label_info);
             url = `http://api.labelary.com/v1/printers/8dpmm/labels/2.475x4.00/0/${zpl}`;
         }
+        console.log('id_societate: ',id_societate, 'id_locatie: ', id_locatie, categorii_carniva)
         console.log('ZPL: ', zpl);
         // Trimite ZPL către API-ul Labelary
         const labelaryResponse = await axios.get(url, {
