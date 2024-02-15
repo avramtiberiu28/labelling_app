@@ -287,7 +287,7 @@ export default function ModalEdit({ show, onClose, id_eticheta , id_categorie, o
                                 <Form.Control placeholder='Ambalat VID.' defaultValue={label.clasa} type='input' onBlur={handleBlur}></Form.Control>
                             </Form.Group>
                             <Form.Group>
-                                <div className='flex justify-center items-center'>
+                                <div className='flex justify-center items-center w-[27rem] h-[40rem]'>
                                     {imageUrl && <img className={style} src={imageUrl} />}
                                 </div>
                             </Form.Group>             

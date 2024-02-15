@@ -42,7 +42,7 @@ export default function ModalAdd({ show, onClose, onLabelAdded }) {
         valoriEnergetice: '',
         dataExpirarii: ''
     });
-
+    const [idCategorie, setIdCategorie] = useState(null);
     const fetchImage = async () => {
         try {
             const response = await axios.post(`http://${API_URL}:3003/generateLabel/`, {id_societate: id_societate, id_locatie: id_locatie , prenume: prenume, VA: VA,label: label}, {responseType: 'arraybuffer'});
@@ -69,6 +69,9 @@ export default function ModalAdd({ show, onClose, onLabelAdded }) {
             ...prevLabel,
             [id]: value
         }));
+        if(id == 'id_categorie'){
+            setIdCategorie(parseInt(value));
+        }
     }
     const handleCheck = (e) => {
         const { name, checked } = e.target;
@@ -138,19 +141,22 @@ export default function ModalAdd({ show, onClose, onLabelAdded }) {
 
         } 
         else if(id_societate === '2' && id_locatie === '8'){
-            if(categorii_52x73.includes(id_categorie)){
-                setStyle('img_modalAdd carmangerie52x73');
-            }
-            if(categorii_carniva.includes(id_categorie)){
-                setStyle('img_modalAdd carmangerieCarniva');
-            }
             setIsTransat(true);
             setProdus('Produs in unitate tip Carmangerie VA TL2299/16.05.2016')
             setReadOnly(true);
         }
         fetchImage(); // Apelăm funcția fetchImage pentru a obține URL-ul imaginii*/
-      }, [id_societate, id_locatie]);
+      }, [id_societate, id_locatie, label.id_categorie]);
         
+
+    useEffect(() => {
+        if(categorii_52x73.includes(idCategorie)){
+            setStyle('img_modalAdd carmangerie52x73');
+        }
+        if(categorii_carniva.includes(idCategorie)){
+            setStyle('img_modalAdd carmangerieCarniva');
+        }
+    },[idCategorie])
 
     useEffect(() => {
         const fetchCategorii = async () => {
@@ -166,6 +172,7 @@ export default function ModalAdd({ show, onClose, onLabelAdded }) {
         fetchCategorii();
     }, [id_societate]);
 
+    console.log(idCategorie, style);
     
     return (
         <Modal show={showModal} onHide={handleCloseModal} animation={true} style={{ opacity: 1 }} id='modal_add' contentClassName='flex flex-row'>
@@ -269,7 +276,7 @@ export default function ModalAdd({ show, onClose, onLabelAdded }) {
                                 <Form.Control placeholder='Ambalat VID.' defaultValue={label.clasa} type='input' onBlur={handleBlur}></Form.Control>
                             </Form.Group>
                             <Form.Group>
-                                <div className='flex justify-center items-center'>
+                                <div className='flex justify-center items-center w-[27rem] h-[40rem]'>
                                     {imageUrl && <img className={style} src={imageUrl} />}
                                 </div>
                             </Form.Group>             

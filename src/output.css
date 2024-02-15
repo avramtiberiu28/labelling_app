@@ -732,6 +732,10 @@ video {
   height: 4.5rem;
 }
 
+.h-\[40rem\] {
+  height: 40rem;
+}
+
 .h-auto {
   height: auto;
 }
@@ -754,6 +758,10 @@ video {
 
 .w-96 {
   width: 24rem;
+}
+
+.w-\[27rem\] {
+  width: 27rem;
 }
 
 .w-\[4\.5rem\] {
@@ -1446,6 +1454,7 @@ nav .main-menu a{
   height: 63mm;
   transform:rotate(-90deg);
   border: 4px solid #00a65a;
+  max-width: none;
 }
 
 #modal_add .validation{
@@ -1518,6 +1527,7 @@ nav .main-menu a{
   height: 63mm;
   transform:rotate(-90deg);
   border: 4px solid #00a65a;
+  max-width: none;
 }
 
 #modal_edit .validation{
@@ -1590,6 +1600,7 @@ nav .main-menu a{
   height: 63mm;
   transform:rotate(-90deg);
   border: 4px solid #00a65a;
+  max-width: none;
 }
 
 #modal_copy .validation{

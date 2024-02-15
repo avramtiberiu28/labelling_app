@@ -61,7 +61,7 @@ app.post("/generateLabelTabel/", async (req, res) => {
 app.post("/generateLabel/", async (req, res) => {
     try {
         const { id_societate, id_locatie, prenume, VA, label } = req.body;
-        //console.log('id_societate: ',id_societate, 'id_locatie: ', id_locatie, 'Label: ',label);
+        console.log('id_societate: ',id_societate, 'id_locatie: ', id_locatie, 'Label: ',label);
         let zpl = '';
         let url = '';
         if (id_societate === '2' && locatii_corner.includes(id_locatie)) {
@@ -73,9 +73,13 @@ app.post("/generateLabel/", async (req, res) => {
             url = `http://api.labelary.com/v1/printers/8dpmm/labels/2.04x2.86/0/${zpl}`;
         }
         else if(id_societate === '2' && id_locatie == 8 && categorii_carniva.includes(label.id_categorie)){
-            console.log('test3')
+            console.log('test');
             zpl = generateZPLCarmangerieCarniva(label);
-            url = `http://api.labelary.com/v1/printers/8dpmm/labels/2.475x4.00/0/${zpl}`;
+            url = `http://api.labelary.com/v1/printers/8dpmm/labels/4.00x2.475/0/${zpl}`;
+        }
+        else if(id_societate === '2' && id_locatie == 8){
+            zpl = generateZPLCarmangerie52x73(label);
+            url = `http://api.labelary.com/v1/printers/8dpmm/labels/2.04x2.86/0/${zpl}`;
         }
         console.log('id_societate: ',id_societate, 'id_locatie: ', id_locatie, categorii_carniva)
         console.log('ZPL: ', zpl);

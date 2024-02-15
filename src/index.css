@@ -292,6 +292,7 @@ body {
     height: 63mm;
     transform:rotate(-90deg);
     border: 4px solid #00a65a;
+    max-width: none;
   }
 
   #modal_add .validation{
@@ -353,6 +354,7 @@ body {
     height: 63mm;
     transform:rotate(-90deg);
     border: 4px solid #00a65a;
+    max-width: none;
   }
   #modal_edit .validation{
     color:#d9534f;
@@ -413,6 +415,7 @@ body {
     height: 63mm;
     transform:rotate(-90deg);
     border: 4px solid #00a65a;
+    max-width: none;
   }
 
   #modal_copy .validation{
