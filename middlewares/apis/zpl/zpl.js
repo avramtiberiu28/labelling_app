@@ -41,7 +41,7 @@ app.post("/generateLabelTabel/", async (req, res) => {
         }
         else if(id_societate === '2' && id_locatie == 8 && categorii_carniva.includes(label.id_categorie)){
             zpl = generateZPLCarmangerieCarniva(label, label_info);
-            url = `http://api.labelary.com/v1/printers/8dpmm/labels/2.475x4.00/0/${zpl}`;
+            url = `http://api.labelary.com/v1/printers/8dpmm/labels/4.00x2.475/0/${zpl}`;
         }
         //console.log(zpl);
         // Trimite ZPL către API-ul Labelary

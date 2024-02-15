@@ -14,8 +14,8 @@ function generateZPLCarmangerieCarniva (label, label_info){
     let font_data = `^A0R,27`
     let font_mic = `^A0R,18`
     const origine = `^FO`
-    let latimeEticheta = 584;
-    let inaltime = 370;
+    let latimeEticheta = 480;
+    let inaltime = 655;
     let pozitieX = 15;
     let nrRanduri = 1;
     let fb = (latimeEticheta, nrRanduri) => {
@@ -23,7 +23,8 @@ function generateZPLCarmangerieCarniva (label, label_info){
     }
     let br = '^FS\n'
     let contor = pozitieX + 1;
-    zpl += '^XA^PW415^LL584\n';
+    zpl += '^XA^PW816^LL496\n';
+    //zpl += '^FWR\n';
     //denumire
     for(let i = 0; i <= 1; i++ ){
         zpl += `${origine}${inaltime},${i}${font_denumire}${fb(latimeEticheta, nrRanduri)}c^FD${label.denumire}${br}`;
@@ -182,7 +183,8 @@ function generateZPLCarmangerieCarniva (label, label_info){
     //producator
     if(label.producator != ''){
         if(label.transat == 0){
-            inaltime = inaltime - 20;
+            nrRanduri = 2;
+            inaltime = inaltime - 20 * nrRanduri;
             for(let i = pozitieX; i <= contor; i++){
                 zpl += `${origine}${inaltime},${i}${font_normal}${fb(latimeEticheta, nrRanduri)}^FDProdus de: ${label.producator}${br}`;
             }
@@ -198,7 +200,7 @@ function generateZPLCarmangerieCarniva (label, label_info){
     }
     //producator
     zpl += `^XZ`;
-    //console.log(zpl);
+    console.log(zpl);
     return zpl;
 }
 

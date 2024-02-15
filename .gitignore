@@ -18,6 +18,8 @@ dist-ssr
 !.vscode/extensions.json
 .idea
 .DS_Store
+print_files
+print_files/*
 *.suo
 *.ntvs*
 *.njsproj

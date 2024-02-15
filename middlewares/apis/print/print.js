@@ -18,7 +18,7 @@ app.post("/printLabel/", async (req, res) => {
     const { zpl, user_info, cantitate } = req.body;
     let cmds=[];
     console.log(user_info)
-    let zpl_file = '\print_files\label'+user_info.printer+'.zpl';
+    let zpl_file = 'print_files\\label'+user_info.printer+'.zpl';
     console.log(zpl_file);
     fs.writeFile(zpl_file, zpl, async (err) => {
         if (err) {
