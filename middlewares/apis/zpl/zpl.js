@@ -6,7 +6,8 @@ const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv')
 const request = require('request');
 const {generateZPLGustaria} = require('./functions/Gustaria');
-const {generateZPLCarmangerie52x73, generateZPLCarmangerieCarniva} = require('./functions/Carmangerie');
+const {generateZPLCarmangerie52x73} = require('./functions/Carmangerie52x73');
+const {generateZPLCarmangerieCarniva} = require('./functions/CarmangerieCarniva');
 
 dotenv.config();
 const API_URL = process.env.API_URL
@@ -72,7 +73,8 @@ app.post("/generateLabel/", async (req, res) => {
             url = `http://api.labelary.com/v1/printers/8dpmm/labels/2.04x2.86/0/${zpl}`;
         }
         else if(id_societate === '2' && id_locatie == 8 && categorii_carniva.includes(label.id_categorie)){
-            zpl = generateZPLCarmangerieCarniva(label, label_info);
+            console.log('test3')
+            zpl = generateZPLCarmangerieCarniva(label);
             url = `http://api.labelary.com/v1/printers/8dpmm/labels/2.475x4.00/0/${zpl}`;
         }
         console.log('id_societate: ',id_societate, 'id_locatie: ', id_locatie, categorii_carniva)
