@@ -1,0 +1,12 @@
+window.API_URL = import.meta.env.VITE_API_URL;
+window.username = localStorage.getItem('username');
+window.nume = localStorage.getItem('nume');
+window.prenume = localStorage.getItem('prenume');
+window.id_societate = localStorage.getItem('id_societate');
+window.id_locatie = localStorage.getItem('id_locatie');
+window.VA = localStorage.getItem('VA');
+window.admin = localStorage.getItem('admin');
+window.locatii_corner = ['0','1','2','3','4','5','6','7'];
+window.categorii_52x73 = [5, 6, 7];
+window.categorii_carniva = [8, 9, 10];
+window.id_user = localStorage.getItem('id_user');
