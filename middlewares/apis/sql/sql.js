@@ -235,6 +235,19 @@ app.get("/changePassword/:username/:password", (req, res) => {
     });
 });
 
+app.get("/getLocatii/:id_societate", (req, res) => {
+    const id_societate = req.params.id_societate;
+    const sql_query = `SELECT * FROM locatii WHERE id_societate = ${id_societate}`
+
+    db.query(sql_query, (err, result) => {
+        if(err) {
+            console.log("Error getting locations:", err);
+            return res.status(500).send("Error getting locations!");
+        }
+        res.send(result);
+    });
+});
+
 
 app.get("/getLabelDetails/:id_societate/:id_locatie/:id_eticheta", (req, res) => {
     const {id_societate, id_locatie, id_eticheta} = req.params;
