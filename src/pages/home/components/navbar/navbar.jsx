@@ -21,7 +21,7 @@ export default function Meniu ({onRefresh}) {
   const { logout, isLoggedIn } = useAuth(); // Folosirea hook-ului de autentificare
   const [isModalAddOpen, setIsModalAddOpen] = useState(false); // Stare pentru deschiderea modalei de adăugare
   const [refresh, setRefresh] = useState(false);
-
+  const [isAdmin, setIsAdmin] = useState(localStorage.admin);
   const handleLogout = () => {
     logout();
   }
@@ -51,7 +51,7 @@ export default function Meniu ({onRefresh}) {
                   <div className="xs:hidden sm:ml-6 sm:block main-menu">
                     <div className="flex space-x-4">
                       {navigation.map((item) => (
-                        item.name === 'Adauga eticheta' && admin == 1 ? (
+                        item.name === 'Adauga eticheta' && isAdmin == 1 ? (
                           <a
                             key={item.name}
                             href={item.href}

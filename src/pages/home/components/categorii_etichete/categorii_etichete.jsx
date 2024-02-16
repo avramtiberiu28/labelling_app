@@ -10,6 +10,7 @@ export default function Categorii_etichete({ id_societate, id_locatie, onCategor
     const [categoriiSelect, setCategoriiSelect] = useState([]);
     const [activeCategory, setActiveCategory] = useState(0);
     const [refresh, setRefresh] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(0);
     const handleClick = (id) => {
         setActiveCategory(id);
         onCategoryChange(id);
@@ -142,6 +143,7 @@ export default function Categorii_etichete({ id_societate, id_locatie, onCategor
     }, [id_societate]);
 
     useEffect(() => {
+        setIsAdmin(localStorage.admin);
         categorii.map((categorie) => {
             setCategoriiSelect(prevCat => ({
                 ...prevCat,
@@ -179,7 +181,7 @@ export default function Categorii_etichete({ id_societate, id_locatie, onCategor
                 >
                     Toate
                 </a>
-                {admin == 1 ?
+                {isAdmin == 1 ?
                     <>
                         <a
                             id="add-labels"

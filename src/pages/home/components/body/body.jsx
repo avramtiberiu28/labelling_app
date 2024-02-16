@@ -10,7 +10,7 @@ import ModalPrint from "../modalPrint/modalPrint";
 import ModalEdit from "../modalEdit/modalEdit";
 import ModalCopy from "../modalCopy/modalCopy";
 
-export default function Body({id_categorie, handleShowModal, refreshTable, setRefreshTable}) {
+export default function Body({id_categorie, id_locatie, admin, handleShowModal, refreshTable, setRefreshTable}) {
   const [tabel, setTabel] = useState([]);
   const [etichete, setEtichete] = useState([]);
   const [filteredEtichete, setFilteredEtichete] = useState([]);
@@ -21,7 +21,10 @@ export default function Body({id_categorie, handleShowModal, refreshTable, setRe
   const [idLabel, setIdLabel] = useState(null);
   const [idCategorie, setIdCategorie] = useState(null);
   const [refreshTableDelete, setRefreshTableDelete] = useState(false); // Starea pentru reîmprospătarea tabelului
+  const [isAdmin, setIsAdmin] = useState(localStorage.admin);
+  const [idLocatie, setIdLocatie] = useState(null);
 
+console.log(admin, id_societate, id_locatie);
 
   const fetchEtichete = async () => {
     try {
@@ -104,7 +107,7 @@ export default function Body({id_categorie, handleShowModal, refreshTable, setRe
               <Card.Title>{etichete[i].denumire}</Card.Title>
             </Card.Header>
             <Card.Footer className="relative">
-              {admin == 1 ? 
+              {isAdmin == 1 ? 
                 <div className="grid grid-cols-4 gap-4 px-3 mb-3">
                   <Button onClick={() => handleOnClickLabel(etichete[i].id_eticheta, etichete[i].id_categorie, 'print')} title="Tipareste eticheta" className="flex justify-center items-center mt-10 admin" variant="success"><FontAwesomeIcon icon={faPrint}/></Button>
                   <Button onClick={() => handleOnClickLabel(etichete[i].id_eticheta, etichete[i].id_categorie, 'edit')} title="Editeaza eticheta" className="flex justify-center items-center mt-10 admin" variant="warning"><FontAwesomeIcon icon={faEdit}/></Button>
