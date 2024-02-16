@@ -10,7 +10,7 @@ import ModalPrint from "../modalPrint/modalPrint";
 import ModalEdit from "../modalEdit/modalEdit";
 import ModalCopy from "../modalCopy/modalCopy";
 
-export default function Body({id_categorie, id_locatie, admin, handleShowModal, refreshTable, setRefreshTable}) {
+export default function Body({id_categorie, handleShowModal, refreshTable, setRefreshTable}) {
   const [tabel, setTabel] = useState([]);
   const [etichete, setEtichete] = useState([]);
   const [filteredEtichete, setFilteredEtichete] = useState([]);
@@ -22,14 +22,12 @@ export default function Body({id_categorie, id_locatie, admin, handleShowModal, 
   const [idCategorie, setIdCategorie] = useState(null);
   const [refreshTableDelete, setRefreshTableDelete] = useState(false); // Starea pentru reîmprospătarea tabelului
   const [isAdmin, setIsAdmin] = useState(localStorage.admin);
-  const [idLocatie, setIdLocatie] = useState(null);
-
-console.log(admin, id_societate, id_locatie);
+  const [idLocatie, setIdLocatie] = useState(localStorage.id_locatie);
 
   const fetchEtichete = async () => {
     try {
       const response = await axios.get(
-        `http://${API_URL}:3005/etichete/${id_societate}/${id_locatie}`
+        `http://${API_URL}:3005/etichete/${id_societate}/${idLocatie}`
       );
       setEtichete(response.data);
       setFilteredEtichete(response.data);

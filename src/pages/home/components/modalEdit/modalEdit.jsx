@@ -18,6 +18,9 @@ export default function ModalEdit({ show, onClose, id_eticheta , id_categorie, o
     const [imageUrl, setImageUrl] = useState(null); // Noua stare pentru URL-ul imaginii
     const [produs, setProdus] = useState('');
     const [style, setStyle] = useState('');
+    const [idLocatie, setIdLocatie] = useState(localStorage.id_locatie);
+    const [VA, setVA] = useState(localStorage.VA);
+    const [prenume, setPrenume] = useState(localStorage.prenume);
     const [checked, setChecked] = useState(false);
     const [label, setLabel] = useState({
         denumire: '',
@@ -70,7 +73,7 @@ export default function ModalEdit({ show, onClose, id_eticheta , id_categorie, o
 
     const fetchImage = async () => {
         try {
-            const response = await axios.post(`http://${API_URL}:3003/generateLabel/`, {id_societate: id_societate, id_locatie: id_locatie, prenume: prenume, VA: VA, label: label}, {responseType: 'arraybuffer'});
+            const response = await axios.post(`http://${API_URL}:3003/generateLabel/`, {id_societate: id_societate, id_locatie: idLocatie, prenume: prenume, VA: VA, label: label}, {responseType: 'arraybuffer'});
             // Convertim răspunsul la obiectul Blob pentru a-l putea afișa
             const blob = new Blob([response.data], { type: 'image/png' });
             const imageUrl = URL.createObjectURL(blob);
@@ -83,10 +86,10 @@ export default function ModalEdit({ show, onClose, id_eticheta , id_categorie, o
     const handleSaveLabel = async () => {
         let fieldsToValidate = [];
         if(id_societate === '2'){
-            if(locatii_corner.includes(id_locatie)){
+            if(locatii_corner.includes(idLocatie)){
                 fieldsToValidate = ['denumire', 'id_categorie', 'ingrediente', 'valoriEnergetice', 'recomandari', 'dataExpirarii']
             }
-            else if(id_locatie === '8'){
+            else if(idLocatie === '8'){
                 fieldsToValidate = ['denumire', 'id_categorie'];
             }
         }
@@ -102,7 +105,7 @@ export default function ModalEdit({ show, onClose, id_eticheta , id_categorie, o
             return;
         }
         try {
-            const response = await axios.post(`http://${API_URL}:3005/saveLabel/`, {id_societate: id_societate, id_locatie: id_locatie ,label: label, CRUD: 'update', id_eticheta: id_eticheta});
+            const response = await axios.post(`http://${API_URL}:3005/saveLabel/`, {id_societate: id_societate, id_locatie: idLocatie ,label: label, CRUD: 'update', id_eticheta: id_eticheta});
             handleCloseModal();
             Swal.fire({
                 icon: "success",
@@ -126,7 +129,7 @@ export default function ModalEdit({ show, onClose, id_eticheta , id_categorie, o
         const fetchLabel = async () => {
             try {
                 const response = await axios.get(
-                    `http://${API_URL}:3005/getLabelDetails/${id_societate}/${id_locatie}/${id_eticheta}`
+                    `http://${API_URL}:3005/getLabelDetails/${id_societate}/${idLocatie}/${id_eticheta}`
                 );
                 setLabel(response.data[0]);
             } catch (error) {
@@ -138,14 +141,14 @@ export default function ModalEdit({ show, onClose, id_eticheta , id_categorie, o
     
 
     useEffect(() => {
-        if (id_societate === '2' && locatii_corner.includes(id_locatie)) {
+        if (id_societate === '2' && locatii_corner.includes(idLocatie)) {
             setReadOnly(true);
             setProdus('Produs in unitate FAST FOOD');
             setStyle('img_modalEdit gustaria');
             setLabel(prevState => ({ ...prevState, informatiiAditionale: 'Produs in unitate FAST FOOD' }));
 
         } 
-        else if(id_societate === '2' && id_locatie === '8'){
+        else if(id_societate === '2' && idLocatie === '8'){
             if(categorii_52x73.includes(id_categorie)){
                 setStyle('img_modalEdit carmangerie52x73');
             }
@@ -158,7 +161,7 @@ export default function ModalEdit({ show, onClose, id_eticheta , id_categorie, o
         // Definirea funcției fetchImage în interiorul funcției useEffect pentru a o putea folosi
     
         fetchImage(); // Apelăm funcția fetchImage pentru a obține URL-ul imaginii*/
-      }, [id_societate, id_locatie, id_categorie]);
+      }, [id_societate, idLocatie, id_categorie]);
 
     useEffect(() => {
         const isModified = !isEqual(label, prevLabel);
@@ -172,7 +175,7 @@ export default function ModalEdit({ show, onClose, id_eticheta , id_categorie, o
         const fetchCategorii = async () => {
             try {
                 const response = await axios.get(
-                    `http://${API_URL}:3005/categorii/${id_societate}/${id_locatie}`
+                    `http://${API_URL}:3005/categorii/${id_societate}/${idLocatie}`
                 );
                 setCategorii(response.data);
             } catch (error) {
@@ -256,7 +259,7 @@ export default function ModalEdit({ show, onClose, id_eticheta , id_categorie, o
                                      Trebuie completate recomandarile.
                                 </Form.Control.Feedback>
                             </Form.Group>
-                            {locatii_corner.includes(id_locatie) ?
+                            {locatii_corner.includes(idLocatie) ?
                                 <Form.Group className='pt-5' controlId='dataExpirarii'>
                                     <Form.Label className='mb-0'>Termen de valabilitate: </Form.Label>
                                     <Form.Select className={invalid.dataExpirarii} value={label.dataExpirarii} onChange={handleChange}>

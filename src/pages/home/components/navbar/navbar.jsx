@@ -4,7 +4,9 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon, UserIcon } from '@heroicons/react/24/outline'
 import {useAuth} from '../../../auth/components/AuthContext'
 import {useState} from 'react'
+import Swal from 'sweetalert2'
 import ModalAdd from '../modalAdd/modalAdd'
+import axios from 'axios'
 
 const navigation = [
     { name: 'Dashboard', href: '#', current: true },
@@ -13,15 +15,79 @@ const navigation = [
     //{ name: 'Calendar', href: '#', current: false },
   ]
   
-  function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-  }
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ')
+}
 
 export default function Meniu ({onRefresh}) {
   const { logout, isLoggedIn } = useAuth(); // Folosirea hook-ului de autentificare
   const [isModalAddOpen, setIsModalAddOpen] = useState(false); // Stare pentru deschiderea modalei de adăugare
   const [refresh, setRefresh] = useState(false);
   const [isAdmin, setIsAdmin] = useState(localStorage.admin);
+  const [username, setUsername] = useState(localStorage.username);
+
+  const schimbaParola = async (username,password) => {
+    try {
+      await axios.get(`http://${API_URL}:3005/changePassword/${username}/${password}`);
+      Swal.fire({
+        title: "Parola a fost schimbata!",
+        icon: "success",
+        showConfirmButton: false,
+        timer: 1500
+      });
+    } 
+    catch (error) {
+      console.error("Eroare la stergerea etichetei:", error);
+    }
+  };
+
+  const handleChangePassword = () => {
+      Swal.fire({
+        title: "Esti sigur ca vrei sa schimbi parola?",
+        icon: "warning",
+        showCancelButton: true,
+        cancelButtonColor: "#3085d6",
+        confirmButtonColor: "#d33",
+        confirmButtonText: "Schimba",
+        cancelButtonText: "Anuleaza",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: "Scrie noua parola",
+            showCancelButton: true,
+            input: 'text',
+            cancelButtonColor: "#3085d6",
+            confirmButtonColor: "#d33",
+            confirmButtonText: "Salveaza",
+            cancelButtonText: "Anuleaza",
+          }).then((result) => {
+            if(result.isConfirmed){
+              schimbaParola(username, result.value);
+            }
+            else if(result.dismiss === Swal.DismissReason.cancel){
+              Swal.fire({
+                title: 'Anulat!',
+                text: 'Parola nu a fost schimbata!',
+                icon: 'error',
+                showConfirmButton: false,
+                timer: 1500
+              })
+            }
+          })
+        }
+        else if(result.dismiss === Swal.DismissReason.cancel){
+          Swal.fire({
+            title: 'Anulat!',
+            text: 'Parola nu a fost schimbata!',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 1500
+          })
+        }
+      });
+    
+  }
+
   const handleLogout = () => {
     logout();
   }
@@ -97,21 +163,26 @@ export default function Meniu ({onRefresh}) {
                       leaveTo="transform opacity-0 scale-95"
                     >
                       <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        {isAdmin == 1 ?
+                          <Menu.Item>
+                            {({ active }) => (
+                              <a
+                                href="#"
+                                className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                              >
+                                Schimba societate
+                              </a>
+                            )}
+                          </Menu.Item>
+                          :
+                          null
+                        }
                         <Menu.Item>
                           {({ active }) => (
                             <a
                               href="#"
                               className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
-                            >
-                              Schimba societate
-                            </a>
-                          )}
-                        </Menu.Item>
-                        <Menu.Item>
-                          {({ active }) => (
-                            <a
-                              href="#"
-                              className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                              onClick={handleChangePassword}
                             >
                               Schimba parola
                             </a>

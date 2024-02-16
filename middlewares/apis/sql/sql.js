@@ -221,6 +221,20 @@ app.get("/deleteLabel/:id_eticheta", (req, res) => {
     });
 });
 
+app.get("/changePassword/:username/:password", (req, res) => {
+    const username = req.params.username;
+    const password = req.params.password;
+    const sql_query = `UPDATE users SET password = MD5("${password}") WHERE username = "${username}"`
+
+    db.query(sql_query, (err, result) => {
+        if(err) {
+            console.log("Error changing password:", err);
+            return res.status(500).send("Error changing password!");
+        }
+        res.send(result);
+    });
+});
+
 
 app.get("/getLabelDetails/:id_societate/:id_locatie/:id_eticheta", (req, res) => {
     const {id_societate, id_locatie, id_eticheta} = req.params;

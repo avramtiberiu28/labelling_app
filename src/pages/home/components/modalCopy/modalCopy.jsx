@@ -20,6 +20,9 @@ export default function ModalCopy({ show, onClose, id_eticheta, id_categorie, on
     const [imageUrl, setImageUrl] = useState(null); // Noua stare pentru URL-ul imaginii
     const [produs, setProdus] = useState('');
     const [checked, setChecked] = useState(false);
+    const [idLocatie, setIdLocatie] = useState(localStorage.id_locatie);
+    const [VA, setVA] = useState(localStorage.VA);
+    const [prenume, setPrenume] = useState(localStorage.prenume);
     const [label, setLabel] = useState({
         denumire: '',
         id_categorie: '',
@@ -46,7 +49,7 @@ export default function ModalCopy({ show, onClose, id_eticheta, id_categorie, on
 
     const fetchImage = async () => {
         try {
-            const response = await axios.post(`http://${API_URL}:3003/generateLabel/`, {id_societate: id_societate, id_locatie: id_locatie, prenume: prenume, VA: VA,label: label}, {responseType: 'arraybuffer'});
+            const response = await axios.post(`http://${API_URL}:3003/generateLabel/`, {id_societate: id_societate, id_locatie: idLocatie, prenume: prenume, VA: VA,label: label}, {responseType: 'arraybuffer'});
             // Convertim răspunsul la obiectul Blob pentru a-l putea afișa
             const blob = new Blob([response.data], { type: 'image/png' });
             const imageUrl = URL.createObjectURL(blob);
@@ -89,10 +92,10 @@ export default function ModalCopy({ show, onClose, id_eticheta, id_categorie, on
     const handleSaveLabel = async () => {
         let fieldsToValidate = [];
         if(id_societate === '2'){
-            if(locatii_corner.includes(id_locatie)){
+            if(locatii_corner.includes(idLocatie)){
                 fieldsToValidate = ['denumire', 'id_categorie', 'ingrediente', 'valoriEnergetice', 'recomandari', 'dataExpirarii']
             }
-            else if(id_locatie === '8'){
+            else if(idLocatie === '8'){
                 fieldsToValidate = ['denumire', 'id_categorie'];
             }
         }
@@ -108,7 +111,7 @@ export default function ModalCopy({ show, onClose, id_eticheta, id_categorie, on
             return;
         }
         try {
-            const response = await axios.post(`http://${API_URL}:3005/saveLabel/`, {id_societate: id_societate, id_locatie: id_locatie ,label: label, CRUD: 'create', id_eticheta: ''});
+            const response = await axios.post(`http://${API_URL}:3005/saveLabel/`, {id_societate: id_societate, id_locatie: idLocatie ,label: label, CRUD: 'create', id_eticheta: ''});
             console.log(response);
             handleCloseModal();
             Swal.fire({
@@ -134,14 +137,14 @@ export default function ModalCopy({ show, onClose, id_eticheta, id_categorie, on
     }, [label]); // Dependență pentru hook-ul useEffect
     
     useEffect(() => {
-        if (id_societate === '2' && locatii_corner.includes(id_locatie)) {
+        if (id_societate === '2' && locatii_corner.includes(idLocatie)) {
             setReadOnly(true);
             setProdus('Produs in unitate FAST FOOD');
             setStyle('img_modalCopy gustaria');
             setLabel(prevState => ({ ...prevState, informatiiAditionale: 'Produs in unitate FAST FOOD' }));
 
         } 
-        else if(id_societate === '2' && id_locatie === '8'){
+        else if(id_societate === '2' && idLocatie === '8'){
             if(categorii_52x73.includes(id_categorie)){
                 setStyle('img_modalCopy carmangerie52x73');
             }
@@ -154,14 +157,14 @@ export default function ModalCopy({ show, onClose, id_eticheta, id_categorie, on
         // Definirea funcției fetchImage în interiorul funcției useEffect pentru a o putea folosi
     
         fetchImage(); // Apelăm funcția fetchImage pentru a obține URL-ul imaginii*/
-      }, [id_societate, id_locatie]);
+      }, [id_societate, idLocatie]);
         
 
     useEffect(() => {
         const fetchCategorii = async () => {
             try {
                 const response = await axios.get(
-                    `http://${API_URL}:3005/categorii/${id_societate}/${id_locatie}`
+                    `http://${API_URL}:3005/categorii/${id_societate}/${idLocatie}`
                 );
                 setCategorii(response.data);
             } catch (error) {
@@ -175,7 +178,7 @@ export default function ModalCopy({ show, onClose, id_eticheta, id_categorie, on
         const fetchLabel = async () => {
             try {
                 const response = await axios.get(
-                    `http://${API_URL}:3005/getLabelDetails/${id_societate}/${id_locatie}/${id_eticheta}`
+                    `http://${API_URL}:3005/getLabelDetails/${id_societate}/${idLocatie}/${id_eticheta}`
                 );
                 setLabel(response.data[0]);
             } catch (error) {
@@ -259,7 +262,7 @@ export default function ModalCopy({ show, onClose, id_eticheta, id_categorie, on
                                      Trebuie completate recomandarile.
                                 </Form.Control.Feedback>
                             </Form.Group>
-                            {locatii_corner.includes(id_locatie) ?
+                            {locatii_corner.includes(idLocatie) ?
                                 <Form.Group className='pt-5' controlId='dataExpirarii'>
                                     <Form.Label className='mb-0'>Termen de valabilitate: </Form.Label>
                                     <Form.Select className={invalid.dataExpirarii} value={label.dataExpirarii} onChange={handleChange}>

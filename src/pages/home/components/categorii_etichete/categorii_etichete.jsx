@@ -105,13 +105,11 @@ export default function Categorii_etichete({ id_societate, id_locatie, onCategor
             cancelButtonColor: '#3085d6',
             inputValidator: (value) => {
                 if (!value) {
-                    console.log(value)
                     return "Trebuie sa alegi o categorie!";
                 }
             }
         }).then((result) => {
             if(result.isConfirmed){
-                console.log(result.value);
                 stergeCategorie(result.value);
                 Swal.fire({
                     icon: "success",

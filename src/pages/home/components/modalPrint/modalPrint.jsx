@@ -24,6 +24,9 @@ export default function ModalPrint({ show, onClose, id_eticheta, id_categorie}) 
   const [denumire, setDenumire] = useState('');
   const [imageUrl, setImageUrl] = useState(null); // Noua stare pentru URL-ul imaginii
   const [style, setStyle] = useState('');
+  const [idLocatie, setIdLocatie] = useState(localStorage.id_locatie);
+  const [VA, setVA] = useState(localStorage.VA);
+  const [prenume, setPrenume] = useState(localStorage.prenume);
   const [label_info, setLabel_info] = useState({
     origine: '',
     lot: '',
@@ -41,7 +44,7 @@ export default function ModalPrint({ show, onClose, id_eticheta, id_categorie}) 
 
   const fetchImage = async (id_eticheta) => {
     try {
-      const response = await axios.post(`http://${API_URL}:3003/generateLabelTabel/`, {id_societate: id_societate, id_locatie: id_locatie, id_eticheta: id_eticheta, prenume: prenume, VA: VA, label_info}, {responseType: 'arraybuffer'});
+      const response = await axios.post(`http://${API_URL}:3003/generateLabelTabel/`, {id_societate: id_societate, id_locatie: idLocatie, id_eticheta: id_eticheta, prenume: prenume, VA: VA, label_info}, {responseType: 'arraybuffer'});
       // Convertim răspunsul la obiectul Blob pentru a-l putea afișa
       const blob = new Blob([response.data], { type: 'image/png' });
       const imageUrl = URL.createObjectURL(blob);
@@ -71,14 +74,13 @@ export default function ModalPrint({ show, onClose, id_eticheta, id_categorie}) 
     setShowModal(false);
     onClose();
   };
-
   const handleClickPrint = async (id_eticheta) => {
     let fieldsToValidate = [];
         if(id_societate === '2'){
-            if(locatii_corner.includes(id_locatie)){
+            if(locatii_corner.includes(idLocatie)){
                 //fieldsToValidate = ['denumire', 'id_categorie', 'ingrediente', 'valoriEnergetice', 'recomandari', 'dataExpirarii']
             }
-            else if(id_locatie === '8'){
+            else if(idLocatie === '8'){
                 if(id_categorie == 7 || id_categorie == 10){
                   fieldsToValidate = ['origine', 'lot', 'cantitate'];
                 }
@@ -99,7 +101,7 @@ export default function ModalPrint({ show, onClose, id_eticheta, id_categorie}) 
             return;
         }
     try {
-      const response = await axios.post(`http://${API_URL}:3003/generateLabelPrint/`, {id_societate: id_societate, id_locatie: id_locatie, id_eticheta: id_eticheta, prenume: prenume, VA: VA, label_info, cantitate, id_user});
+      const response = await axios.post(`http://${API_URL}:3003/generateLabelPrint/`, {id_societate: id_societate, id_locatie: idLocatie, id_eticheta: id_eticheta, prenume: prenume, VA: VA, label_info, cantitate, id_user});
       return [response.data, cantitate]
       // Convertim răspunsul la obiectul Blob pentru a-l putea afișa
       //const blob = new Blob([response.data], { type: 'image/png' });
@@ -113,11 +115,11 @@ export default function ModalPrint({ show, onClose, id_eticheta, id_categorie}) 
 
 
   useEffect(() => {
-    if (id_societate === '2' && locatii_corner.includes(id_locatie)) {
+    if (id_societate === '2' && locatii_corner.includes(idLocatie)) {
       setReadOnly(true);
       setStyle('img_modalPrint gustaria');
     } 
-    else if(id_societate === '2' && id_locatie === '8'){
+    else if(id_societate === '2' && idLocatie === '8'){
       setReadOnly(false);
       setIsCarmangerie(true);
       if(categorii_52x73.includes(id_categorie)){
@@ -132,7 +134,7 @@ export default function ModalPrint({ show, onClose, id_eticheta, id_categorie}) 
     
     axios.get(`http://${API_URL}:3005/expiration-date&denumire/${id_eticheta}`)
       .then(response => {
-        if(id_societate === '2' && id_locatie === '8'){
+        if(id_societate === '2' && idLocatie === '8'){
           if(id_categorie == '7' || id_categorie == '10'){
             setIsCongelat(true);
             setReadOnlyExpiry(true);
@@ -148,7 +150,7 @@ export default function ModalPrint({ show, onClose, id_eticheta, id_categorie}) 
       .catch(error => {
         console.error('Error fetching expiration date:', error);
       });
-  }, [id_societate, id_locatie, id_eticheta, id_categorie]);
+  }, [id_societate, idLocatie, id_eticheta, id_categorie]);
 
   useEffect(() => {
     if (showModal && inputCantitateRef.current) {
@@ -210,7 +212,7 @@ export default function ModalPrint({ show, onClose, id_eticheta, id_categorie}) 
                 className={invalid.dataExpirarii} 
                 onChange={handleChange} 
                 placeholder={expirationDatePlaceholder} 
-                defaultValue={(id_societate == '2' && locatii_corner.includes(id_locatie)) ? (expirationDatePlaceholder) : (id_societate == '2' && id_locatie == '8') ? isCongelat ? expirationDatePlaceholder : null : null } 
+                defaultValue={(id_societate == '2' && locatii_corner.includes(idLocatie)) ? (expirationDatePlaceholder) : (id_societate == '2' && idLocatie == '8') ? isCongelat ? expirationDatePlaceholder : null : null } 
                 type={id_societate == '2' && locatii_corner.includes(id_societate) ? 'input' : 'number'}>
               </Form.Control>
               <Form.Control.Feedback type="invalid" className={'validation '+invalid.dataExpirarii}>
