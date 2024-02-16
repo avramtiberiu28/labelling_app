@@ -285,10 +285,12 @@ export default function ModalEdit({ show, onClose, id_eticheta , id_categorie, o
                                     <input type='checkbox' name='transat' checked={label.transat == 1} onChange={handleCheck}/>
                                 </Form.Group>
                             }
-                            <Form.Group className='pt-5' controlId='clasa'>
-                                <Form.Label className='mb-0'>Ambalat: </Form.Label>
-                                <Form.Control placeholder='Ambalat VID.' defaultValue={label.clasa} type='input' onBlur={handleBlur}></Form.Control>
-                            </Form.Group>
+                            {locatii_corner.includes(idLocatie) ? null :
+                                <Form.Group className='pt-5' controlId='clasa'>
+                                    <Form.Label className='mb-0'>Ambalat: </Form.Label>
+                                    <Form.Control placeholder='Ambalat VID.' defaultValue={label.clasa} type='input' onBlur={handleBlur}></Form.Control>
+                                </Form.Group>
+                            }
                             <Form.Group>
                                 <div className='flex justify-center items-center w-[27rem] h-[40rem]'>
                                     {imageUrl && <img className={style} src={imageUrl} />}
