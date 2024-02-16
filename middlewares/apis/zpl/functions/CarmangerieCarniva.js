@@ -127,7 +127,7 @@ function generateZPLCarmangerieCarniva (label, label_info){
     }
     //data productiei
     //data congelarii
-    if(label.id_categorie == '7'){
+    if(label.id_categorie == '10'){
         flag = 1;
         if(label_info.dataCongelarii != '' && label_info.dataCongelarii != undefined){
             console.log('test1')
