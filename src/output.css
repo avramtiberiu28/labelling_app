@@ -1615,6 +1615,57 @@ nav .main-menu a{
 
 /*modalCopy*/
 
+/*modalAddUser*/
+
+#modal_addUser{
+  top:25vh;
+  height: 100vh;
+  width: 30vw;
+  margin: 0;
+  float: right;
+}
+
+#modal_addUser .modal-content{
+  height: 100vh;
+  border-radius: 0;
+  border-left: 4px solid #00a65a;
+  border-top: 0;
+  border-bottom: 0;
+  border-right: 0;
+}
+
+#modal_addUser .close-button-box{
+  color: red;
+  font-size: 3.2rem;
+  background-color: #fff;
+  border: 4px solid #00a65a;
+}
+
+#modal_addUser .close-button-box a:hover{
+  color: red;
+  font-size: 4rem;
+}
+
+#modal_addUser .btn.btn-success{
+  background-color: #00a65a;
+}
+
+#modal_addUser .btn.btn-danger{
+  background-color: #d9534f;
+}
+
+#modal_addUser .validation{
+  color:#d9534f;
+  font-size: x-small;
+  display: none;
+}
+
+#modal_addUser .show.invalid.form-control{
+  border: 1px solid #d9534f;
+}
+
+/*modalAddUser*/
+
 /*home*/
 
 .hover\:bg-green-700:hover {

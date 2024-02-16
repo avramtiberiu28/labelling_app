@@ -6,11 +6,13 @@ import {useAuth} from '../../../auth/components/AuthContext'
 import {useState, useEffect} from 'react'
 import Swal from 'sweetalert2'
 import ModalAdd from '../modalAdd/modalAdd'
+import ModalAddUser from '../modalAddUser/modalAddUser'
 import axios from 'axios'
 
 const navigation = [
     { name: 'Dashboard', href: '#', current: true },
     { name: 'Adauga eticheta', href: '#', current: false},
+    { name: 'Adauga utilizator', href: '#', current: false},
     //{ name: 'Projects', href: '#', current: false },
     //{ name: 'Calendar', href: '#', current: false },
   ]
@@ -22,6 +24,7 @@ function classNames(...classes) {
 export default function Meniu ({onRefresh}) {
   const { logout, isLoggedIn } = useAuth(); // Folosirea hook-ului de autentificare
   const [isModalAddOpen, setIsModalAddOpen] = useState(false); // Stare pentru deschiderea modalei de adăugare
+  const [isModalAddUserOpen, setIdModalAddUserOpen] = useState(false)
   const [refresh, setRefresh] = useState(false);
   const [isAdmin, setIsAdmin] = useState(localStorage.admin);
   const [username, setUsername] = useState(localStorage.username);
@@ -156,7 +159,7 @@ export default function Meniu ({onRefresh}) {
             [locatie.id_locatie]: locatie.nume
         }));
     })
-}, [locatii]);
+  }, [locatii]);
     return (
       <>
       <Disclosure as="nav" className="bg-custom absolute top-0 left-0 right-0">
@@ -182,23 +185,35 @@ export default function Meniu ({onRefresh}) {
                   </div>
                   <div className="xs:hidden sm:ml-6 sm:block main-menu">
                     <div className="flex space-x-4">
-                      {navigation.map((item) => (
-                        item.name === 'Adauga eticheta' && isAdmin == 1 ? (
-                          <a
+                      {isAdmin == 1 ? 
+                        navigation.map((item) => (
+                          item.name === 'Adauga eticheta' ? 
+                          <a 
                             key={item.name}
                             href={item.href}
-                            onClick={() => {
-                              setIsModalAddOpen(true);
-                            }}
-                            className={classNames(
-                              'text-white hover:bg-green-700 hover:text-white',
-                              'rounded px-3 pt-2 text-xl font-medium'
-                            )}
+                            onClick={() => {setIsModalAddOpen(true)}}
+                            className={classNames('text-white hover:bg-green-700 hover:text-white',
+                            'rounded px-3 pt-2 text-xl font-medium')}
+                          >
+                            {item.name}
+                          </a> 
+                          : 
+                          item.name === 'Adauga utilizator' ? 
+                          <a 
+                            key={item.name}
+                            href={item.href}
+                            onClick={() => {setIdModalAddUserOpen(true)}}
+                            className={classNames('text-white hover:bg-green-700 hover:text-white',
+                            'rounded px-3 pt-2 text-xl font-medium')}
                           >
                             {item.name}
                           </a>
-                        ) : null
-                      ))}
+                          :
+                          null 
+                        ))
+                        :
+                        null
+                      }
                     </div>
                   </div>
                 </div>
@@ -316,6 +331,12 @@ export default function Meniu ({onRefresh}) {
             setRefresh(true);
             onRefresh(); // Apelarea funcției de reîmprospătare din Home.jsx
         }}
+        />
+      )}
+      {isModalAddUserOpen && (
+        <ModalAddUser
+          show={isModalAddUserOpen}
+          onClose={() => setIdModalAddUserOpen(false)}
         />
       )}
       </>

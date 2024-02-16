@@ -189,6 +189,19 @@ app.post("/saveLabel/", (req,res)=>{
     })
 })
 
+app.post("/saveUser/", (req,res)=>{
+    const {id_societate, user_info} = req.body;
+    console.log(id_societate, user_info);
+    const sql_query = `INSERT INTO users (username, password, nume, prenume, id_societate, id_locatie) VALUES("${user_info.username}", MD5("${user_info.password}"), "${user_info.nume}", "${user_info.prenume}", ${id_societate}, ${user_info.id_locatie})`
+    db.query(sql_query, (err, result) => {
+        if(err){
+            console.log('Error:', err)
+            return res.status(500).send("Eroare la adaugare utilizator");
+        }
+        res.send(result)
+    })
+})
+
 app.get("/deleteLabel/:id_eticheta", (req, res) => {
     const id_eticheta = req.params.id_eticheta;
     
