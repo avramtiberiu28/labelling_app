@@ -38,6 +38,14 @@ function generateZPLCarmangerieCarniva (label, label_info){
         }
     }
     //clasa
+    //precizari
+    if(label.precizari != ''){
+        if(label.clasa != undefined){
+            inaltime = inaltime - 20;
+            zpl += `${origine}${inaltime},${pozitieX}${font_normal}${fb(latimeEticheta, nrRanduri)}c^FD${label.precizari}${br}`;
+        }
+    }
+    //precizari
     //alergeni
     if(label.alergeni != ''){
         inaltime = inaltime - 20;
@@ -200,7 +208,7 @@ function generateZPLCarmangerieCarniva (label, label_info){
     }
     //producator
     zpl += `^XZ`;
-    console.log(zpl);
+    //console.log(zpl);
     return zpl;
 }
 

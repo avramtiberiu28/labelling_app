@@ -1,5 +1,5 @@
 function generateZPLCarmangerie52x73 (label, label_info){
-    console.log('Label: ', label, 'Label_info: ', label_info);
+    //console.log('Label: ', label, 'Label_info: ', label_info);
     let flag = 0;
     let expiration_calculation_after_freezer = 365;
     let dataProductiei = new Date();
@@ -37,6 +37,14 @@ function generateZPLCarmangerie52x73 (label, label_info){
         }
     }
     //clasa
+	//precizari
+    if(label.precizari != ''){
+        if(label.clasa != undefined){
+            inaltime = inaltime - 20;
+            zpl += `${origine}${inaltime},${pozitieX}${font_normal}${fb(latimeEticheta, nrRanduri)}c^FD${label.precizari}${br}`;
+        }
+    }
+    //precizari
     //alergeni
     if(label.alergeni != ''){
         inaltime = inaltime - 20;
